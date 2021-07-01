@@ -21,6 +21,7 @@ class HomeWidgetExampleProvider : HomeWidgetProvider() {
                 setOnClickPendingIntent(R.id.widget_container, pendingIntent)
 
                 // Swap Title Text by calling Dart Code in the Background
+                /*
                 setTextViewText(R.id.widget_title, widgetData.getString("title", null)
                         ?: "No Title Set")
                 val backgroundIntent = HomeWidgetBackgroundIntent.getBroadcast(
@@ -38,6 +39,19 @@ class HomeWidgetExampleProvider : HomeWidgetProvider() {
                         MainActivity::class.java,
                         Uri.parse("homeWidgetExample://message?message=$message"))
                 setOnClickPendingIntent(R.id.widget_message, pendingIntentWithData)
+
+                 */
+                val temperature = widgetData.getString("temperature", null)
+                setTextViewText(R.id.widget_temperature, temperature?: "No Temperature Set")
+
+                val description = widgetData.getString("description", null)
+                setTextViewText(R.id.widget_description, description?: "No Description Set")
+
+                val rainFall = widgetData.getString("rainFall", null)
+                setTextViewText(R.id.widget_rainFall, rainFall?: "No rainFall Set")
+
+                val location = widgetData.getString("location", null)
+                setTextViewText(R.id.widget_location, location?: "No location Set")
             }
 
             appWidgetManager.updateAppWidget(widgetId, views)
