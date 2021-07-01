@@ -11,12 +11,19 @@
     android:id="@+id/widget_container">
 
     <TextView
+        android:id="@+id/widget_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:text="Location" />
+
+    <TextView
         android:id="@+id/widget_temperature"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        tools:text="Title" />
+        android:textSize="18sp"
+        tools:text="Temperature" />
 
     <TextView
         android:id="@+id/widget_description"
@@ -32,10 +39,4 @@
         android:textSize="18sp"
         tools:text="RainFall" />
 
-    <TextView
-        android:id="@+id/widget_location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        tools:text="Location" />
 </LinearLayout>

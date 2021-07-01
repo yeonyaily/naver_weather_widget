@@ -41,13 +41,13 @@ class HomeWidgetExampleProvider : HomeWidgetProvider() {
                 setOnClickPendingIntent(R.id.widget_message, pendingIntentWithData)
 
                  */
-                val temperature = widgetData.getString("temperature", null)
+                val temperature = "기온 : " + widgetData.getString("temperature", null)
                 setTextViewText(R.id.widget_temperature, temperature?: "No Temperature Set")
 
                 val description = widgetData.getString("description", null)
                 setTextViewText(R.id.widget_description, description?: "No Description Set")
 
-                val rainFall = widgetData.getString("rainFall", null)
+                val rainFall = "강수량 : " + widgetData.getString("rainFall", null)
                 setTextViewText(R.id.widget_rainFall, rainFall?: "No rainFall Set")
 
                 val location = widgetData.getString("location", null)
