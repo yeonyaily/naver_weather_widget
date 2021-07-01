@@ -11,7 +11,7 @@
     android:id="@+id/widget_container">
 
     <TextView
-        android:id="@+id/widget_title"
+        android:id="@+id/widget_temperature"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="36sp"
@@ -19,9 +19,23 @@
         tools:text="Title" />
 
     <TextView
-        android:id="@+id/widget_message"
+        android:id="@+id/widget_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         tools:text="Message" />
+
+    <TextView
+        android:id="@+id/widget_rainFall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        tools:text="RainFall" />
+
+    <TextView
+        android:id="@+id/widget_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        tools:text="Location" />
 </LinearLayout>
