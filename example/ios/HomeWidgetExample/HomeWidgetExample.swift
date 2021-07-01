@@ -42,14 +42,14 @@ struct HomeWidgetExampleEntryView : View {
     let data = UserDefaults.init(suiteName:widgetGroupId)
     
     var body: some View {
-        Color.blue
         VStack.init(alignment: .leading, spacing: /*@START_MENU_TOKEN@*/nil/*@END_MENU_TOKEN@*/, content: {
-            Text("온도 : " + entry.temperature).bold().font(.title2)
+//            Color(red: 91 / 255, green: 146 / 255, blue: 235 / 255).ignoresSafeArea()
+            Text(entry.location).bold().font(.title2)
+            Text("기온 : " + entry.temperature).font(.body)
             Text(entry.description)
                 .font(.body)
                 .widgetURL(URL(string: "homeWidgetExample://message?message=\(entry.description)&homeWidget"))
-            Text(entry.rainFall).bold().font(.title3)
-            Text(entry.location).bold().font(.title3)
+            Text("강수량 : " + entry.rainFall).font(.body)
         }
         )
     }
