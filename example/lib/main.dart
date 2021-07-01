@@ -1,62 +1,12 @@
 import 'dart:async';
-import 'dart:io';
-import 'dart:math';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:home_widget/home_widget.dart';
-import 'package:workmanager/workmanager.dart';
-
-// /// Used for Background Updates using Workmanager Plugin
-// void callbackDispatcher() {
-//   Workmanager.executeTask((taskName, inputData) {
-//     final now = DateTime.now();
-//     return Future.wait<bool>([
-//       HomeWidget.saveWidgetData(
-//         'title',
-//         'Updated from Background',
-//       ),
-//       HomeWidget.saveWidgetData(
-//         'message',
-//         '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}',
-//       ),
-//       HomeWidget.updateWidget(
-//         name: 'HomeWidgetExampleProvider',
-//         iOSName: 'HomeWidgetExample',
-//       ),
-//     ]).then((value) {
-//       return !value.contains(false);
-//     });
-//   });
-// }
-
-/// Called when Doing Background Work initiated from Widget
-// void backgroundCallback(Uri data) async {
-//   print(data);
-//
-//   if (data.host == 'titleclicked') {
-//     final greetings = [
-//       'Hello',
-//       'Hallo',
-//       'Bonjour',
-//       'Hola',
-//       'Ciao',
-//       '哈洛',
-//       '안녕하세요',
-//       'xin chào'
-//     ];
-//     final selectedGreeting = greetings[Random().nextInt(greetings.length)];
-//
-//     await HomeWidget.saveWidgetData<String>('title', selectedGreeting);
-//     await HomeWidget.updateWidget(
-//         name: 'HomeWidgetExampleProvider', iOSName: 'HomeWidgetExample');
-//   }
-// }
+import 'package:web_scraper/web_scraper.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  // Workmanager.initialize(callbackDispatcher, isInDebugMode: kDebugMode);
   runApp(MaterialApp(home: MyApp()));
 }
 
@@ -66,31 +16,19 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String temperature = '32';
-  String description = '구름많음';
-  String rainFall = '30';
-  String location = '중구 을지로1가';
+  bool loaded = false;
+  String temperature;
+  String description;
+  String rainFall;
+  String location;
+  String siteUrl = 'https://weather.naver.com/';
 
   @override
   void initState() {
     super.initState();
+    getData();
     HomeWidget.setAppGroupId('group.com.swfact.home');
-    // HomeWidget.registerBackgroundCallback(backgroundCallback);
   }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _checkForWidgetLaunch();
-    HomeWidget.widgetClicked.listen(_launchedFromWidget);
-  }
-
-  // @override
-  // void dispose() {
-  //   _titleController.dispose();
-  //   _messageController.dispose();
-  //   super.dispose();
-  // }
 
   Future<void> _sendData() async {
     try {
@@ -117,15 +55,30 @@ class _MyAppState extends State<MyApp> {
   Future<void> _loadData() async {
     try {
       return Future.wait([
-        HomeWidget.getWidgetData<String>('temperature', defaultValue: 'Default temperature')
-            .then((value) => temperature = value),
-        HomeWidget.getWidgetData<String>('description', defaultValue: 'Default description')
-            .then((value) => description = value),
-        HomeWidget.getWidgetData<String>('rainFall', defaultValue: 'Default rainFall')
-            .then((value) => rainFall = value),
+        HomeWidget.getWidgetData<String>('temperature',
+            defaultValue: 'Default temperature')
+            .then((value) =>
+            setState(() {
+              temperature = value;
+            })),
+        HomeWidget.getWidgetData<String>('description',
+            defaultValue: 'Default description')
+            .then((value) =>
+            setState(() {
+              description = value;
+            })),
+        HomeWidget.getWidgetData<String>('rainFall',
+            defaultValue: 'Default rainFall')
+            .then((value) =>
+            setState(() {
+              rainFall = value;
+            })),
         HomeWidget.getWidgetData<String>('location',
-                defaultValue: 'Default location')
-            .then((value) => location = value),
+            defaultValue: 'Default location')
+            .then((value) =>
+            setState(() {
+              location = value;
+            })),
       ]);
     } on PlatformException catch (exception) {
       debugPrint('Error Getting Data. $exception');
@@ -137,30 +90,6 @@ class _MyAppState extends State<MyApp> {
     await _updateWidget();
   }
 
-  void _checkForWidgetLaunch() {
-    HomeWidget.initiallyLaunchedFromHomeWidget().then(_launchedFromWidget);
-  }
-
-  void _launchedFromWidget(Uri uri) {
-    if (uri != null) {
-      showDialog(
-          context: context,
-          builder: (buildContext) => AlertDialog(
-                title: Text('App started from HomeScreenWidget'),
-                content: Text('Here is the URI: $uri'),
-              ));
-    }
-  }
-
-  // void _startBackgroundUpdate() {
-  //   Workmanager.registerPeriodicTask('1', 'widgetBackgroundUpdate',
-  //       frequency: Duration(minutes: 15));
-  // }
-  //
-  // void _stopBackgroundUpdate() {
-  //   Workmanager.cancelByUniqueName('1');
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -169,36 +98,56 @@ class _MyAppState extends State<MyApp> {
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(temperature),
-            Text(description),
-            Text(rainFall),
-            Text(location),
+            (loaded)
+                ? Column(
+              children: [
+                Text(temperature),
+                Text(description),
+                Text(rainFall),
+                Text(location),
+              ],
+            )
+                : CircularProgressIndicator(),
             ElevatedButton(
               onPressed: _sendAndUpdate,
-              child: Text('Send Data to Widget'),
+              child: Text('위젯에 날씨 적용하기'),
             ),
             ElevatedButton(
               onPressed: _loadData,
-              child: Text('Load Data'),
+              child: Text('위젯에 있는 날씨 불러오기'),
             ),
             ElevatedButton(
-              onPressed: _checkForWidgetLaunch,
-              child: Text('Check For Widget Launch'),
+              onPressed: getData,
+              child: Text('날씨 불러오기'),
             ),
-            // if (Platform.isAndroid)
-            //   ElevatedButton(
-            //     onPressed: _startBackgroundUpdate,
-            //     child: Text('Update in background'),
-            //   ),
-            // if (Platform.isAndroid)
-            //   ElevatedButton(
-            //     onPressed: _stopBackgroundUpdate,
-            //     child: Text('Stop updating in background'),
-            //   )
           ],
         ),
       ),
     );
+  }
+
+  void getData() async {
+    final webScraper = WebScraper(siteUrl);
+    if (await webScraper.loadWebPage("")) {
+      var _temperature =
+      webScraper.getElement('div.weather_area > strong.current', ['title']);
+      var _description = webScraper.getElement(
+          'div.weather_area > p.summary > span.weather.before_slash',
+          ['innerHtml']);
+      var _rainFall = webScraper.getElement(
+          'div.weather_area > dl.summary_list > dd.desc', ['innerHtml']);
+      var _location = webScraper.getElement(
+          'div.location_area > strong.location_name', ['innerHtml']);
+
+      setState(() {
+        temperature = _temperature[0]['title'].replaceAll(RegExp(r'현재 온도'), '');
+        description = _description[0]['title'];
+        rainFall = _rainFall[0]['title'];
+        location = _location[0]['title'];
+        loaded = true;
+      });
+    }
   }
 }

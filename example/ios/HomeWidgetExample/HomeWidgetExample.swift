@@ -12,12 +12,12 @@ private let widgetGroupId = "group.com.swfact.home"
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> ExampleEntry {
-        ExampleEntry(date: Date(), title: "Placeholder Title", message: "Placeholder Message")
+        ExampleEntry(date: Date(), temperature: "Placeholder temperature", description: "Placeholder description", rainFall: "Placeholder rainFall", location: "Placeholder location")
     }
     
     func getSnapshot(in context: Context, completion: @escaping (ExampleEntry) -> ()) {
         let data = UserDefaults.init(suiteName:widgetGroupId)
-        let entry = ExampleEntry(date: Date(), title: data?.string(forKey: "title") ?? "No Title Set", message: data?.string(forKey: "message") ?? "No Message Set")
+        let entry = ExampleEntry(date: Date(), temperature: data?.string(forKey: "temperature") ?? "No temperature Set", description: data?.string(forKey: "description") ?? "No description Set", rainFall: data?.string(forKey: "rainFall") ?? "No rainFall Set", location: data?.string(forKey: "location") ?? "No location Set")
         completion(entry)
     }
     
@@ -31,8 +31,10 @@ struct Provider: TimelineProvider {
 
 struct ExampleEntry: TimelineEntry {
     let date: Date
-    let title: String
-    let message: String
+    let temperature: String
+    let description: String
+    let rainFall: String
+    let location: String
 }
 
 struct HomeWidgetExampleEntryView : View {
@@ -40,11 +42,14 @@ struct HomeWidgetExampleEntryView : View {
     let data = UserDefaults.init(suiteName:widgetGroupId)
     
     var body: some View {
+        Color.blue
         VStack.init(alignment: .leading, spacing: /*@START_MENU_TOKEN@*/nil/*@END_MENU_TOKEN@*/, content: {
-            Text(entry.title).bold().font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-            Text(entry.message)
+            Text("온도 : " + entry.temperature).bold().font(.title2)
+            Text(entry.description)
                 .font(.body)
-                .widgetURL(URL(string: "homeWidgetExample://message?message=\(entry.message)&homeWidget"))
+                .widgetURL(URL(string: "homeWidgetExample://message?message=\(entry.description)&homeWidget"))
+            Text(entry.rainFall).bold().font(.title3)
+            Text(entry.location).bold().font(.title3)
         }
         )
     }
@@ -65,7 +70,7 @@ struct HomeWidgetExample: Widget {
 
 struct HomeWidgetExample_Previews: PreviewProvider {
     static var previews: some View {
-        HomeWidgetExampleEntryView(entry: ExampleEntry(date: Date(), title: "Example Title", message: "Example Message"))
+        HomeWidgetExampleEntryView(entry: ExampleEntry(date: Date(), temperature: "Example temperature", description: "Example description", rainFall: "Example rainFall", location: "Example location"))
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }
