@@ -72,7 +72,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    HomeWidget.setAppGroupId('YOUR_GROUP_ID');
+    // HomeWidget.setAppGroupId('YOUR_GROUP_ID');
+    HomeWidget.setAppGroupId('group.com.swfact.home');
     HomeWidget.registerBackgroundCallback(backgroundCallback);
   }
 

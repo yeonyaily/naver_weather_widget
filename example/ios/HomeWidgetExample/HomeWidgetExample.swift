@@ -8,7 +8,7 @@
 import WidgetKit
 import SwiftUI
 
-private let widgetGroupId = "YOUR_APP_GROUP_ID"
+private let widgetGroupId = "group.com.swfact.home"
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> ExampleEntry {
