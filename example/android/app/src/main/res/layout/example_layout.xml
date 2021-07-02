@@ -4,17 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="8dp"
+    android:layout_margin="16dp"
     android:orientation="vertical"
-    android:background="@color/deepBlue"
-    android:padding="8dp"
+    android:background="@drawable/rounded_edge"
+    android:padding="16dp"
     android:id="@+id/widget_container">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/cloudy"
+        />
 
     <TextView
         android:id="@+id/widget_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="3dp"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@color/white"
@@ -24,6 +31,7 @@
         android:id="@+id/widget_temperature"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="3dp"
         android:textSize="18sp"
         android:textColor="@color/white"
         tools:text="Temperature" />
@@ -32,6 +40,7 @@
         android:id="@+id/widget_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="3dp"
         android:textSize="18sp"
         android:textColor="@color/white"
         tools:text="Message" />
@@ -40,6 +49,7 @@
         android:id="@+id/widget_rainFall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="3dp"
         android:textSize="18sp"
         android:textColor="@color/white"
         tools:text="RainFall" />

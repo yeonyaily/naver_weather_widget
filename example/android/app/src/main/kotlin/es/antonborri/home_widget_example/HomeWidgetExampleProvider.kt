@@ -9,6 +9,7 @@ import es.antonborri.home_widget.HomeWidgetBackgroundIntent
 import es.antonborri.home_widget.HomeWidgetLaunchIntent
 import es.antonborri.home_widget.HomeWidgetProvider
 
+
 class HomeWidgetExampleProvider : HomeWidgetProvider() {
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray, widgetData: SharedPreferences) {
@@ -69,6 +70,8 @@ class HomeWidgetExampleProvider : HomeWidgetProvider() {
                 }
                 println(weather_img.toString());
 
+                //ImageView imageView = (ImageView) findViewById(R.id.imageView);
+                //imageView.setImageResource(R.drawable.sunny);
 
             }
 
