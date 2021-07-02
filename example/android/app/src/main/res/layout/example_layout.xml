@@ -6,9 +6,10 @@
     android:layout_height="match_parent"
     android:layout_margin="8dp"
     android:orientation="vertical"
-    android:background="@drawable/widget_background"
+    android:background="@color/deepBlue"
     android:padding="8dp"
     android:id="@+id/widget_container">
+
 
     <TextView
         android:id="@+id/widget_location"
@@ -16,6 +17,7 @@
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="@color/white"
         tools:text="Location" />
 
     <TextView
@@ -23,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
+        android:textColor="@color/white"
         tools:text="Temperature" />
 
     <TextView
@@ -30,6 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
+        android:textColor="@color/white"
         tools:text="Message" />
 
     <TextView
@@ -37,6 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
+        android:textColor="@color/white"
         tools:text="RainFall" />
 
 </LinearLayout>

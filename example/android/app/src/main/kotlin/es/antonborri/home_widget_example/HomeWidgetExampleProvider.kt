@@ -52,6 +52,24 @@ class HomeWidgetExampleProvider : HomeWidgetProvider() {
 
                 val location = widgetData.getString("location", null)
                 setTextViewText(R.id.widget_location, location?: "No location Set")
+
+                // 코틀린에서 when문은 다른 언어의 switch문과 동일하다.
+                println(description.toString());
+                println(temperature.toString());
+                val weather_img = when(description.toString())  {
+                    "맑음" -> "sunny"
+                    "구름조금" -> "partially_cloudy"
+                    "구름많음" -> "cloudy"
+                    "흐림" -> "gloomy"
+                    "비" -> "rainy"
+                    "소나기" -> "shower"
+                    "눈" -> "snow"
+                    "안개" -> "foggy"
+                    else -> "default_img"
+                }
+                println(weather_img.toString());
+
+
             }
 
             appWidgetManager.updateAppWidget(widgetId, views)
