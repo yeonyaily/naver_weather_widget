@@ -79,8 +79,11 @@ struct HomeWidgetExampleEntryView : View {
             ZStack{
                 Color(red: 46 / 255, green: 103 / 255, blue: 198 / 255)
                 VStack(alignment: .leading, spacing: 10){
-                    Text(entry.location).bold().font(.caption).foregroundColor(Color.white)
-                    VStack(alignment: .leading, spacing: 2){
+                    HStack{
+                        Text(entry.location).bold().font(.caption).foregroundColor(Color.white)
+
+                    }
+                    VStack(alignment: .leading, spacing: 3){
                         HStack{
                             Text(self.select_emoji()).font(.title)
                             Text(entry.temperature).font(.body).foregroundColor(Color.white)
@@ -94,7 +97,7 @@ struct HomeWidgetExampleEntryView : View {
                         }
                     }
                 }
-            }
+            }.widgetURL(URL(string: "https://weather.naver.com")!)
         case .systemMedium:
             ZStack{
                 Color(red: 46 / 255, green: 103 / 255, blue: 198 / 255)
